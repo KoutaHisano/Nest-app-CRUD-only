@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, ValidationPipe } from '@nestjs/common';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { ItemsService } from './items.service';
@@ -21,7 +21,7 @@ export class ItemsController {
 
 	// 新規作成
 	@Post()
-	create(@Body() createItem: CreateItemDto) {
+	create(@Body(ValidationPipe) createItem: CreateItemDto) {
 		return this.itemsService.create(createItem);
 	}
 
@@ -29,14 +29,13 @@ export class ItemsController {
 	@Patch(':name')
 	update(
 		@Param('name') name: string,
-		@Body() updateItem: UpdateItemDto) {
+		@Body(ValidationPipe) updateItem: UpdateItemDto) {
 		return this.itemsService.update(name, updateItem);
 	}
 
 	// 削除
 	@Delete(':name')
-	delete(
-		@Param('name') name: string) {
+	delete(@Param('name') name: string) {
 		this.itemsService.delete(name);
 		return '削除完了';
 	}
