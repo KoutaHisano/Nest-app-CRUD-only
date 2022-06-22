@@ -1,4 +1,5 @@
-import { IsString, IsNumberString, MaxLength, MinLength } from "class-validator";
+import { Type } from "class-transformer";
+import { IsString, MaxLength, MinLength, IsInt, Min } from "class-validator";
 
 export class CreateItemDto {
 	@IsString()
@@ -6,9 +7,9 @@ export class CreateItemDto {
   @MaxLength(15)
   name: string;
 
-  @IsNumberString()
-  @MinLength(1)
-  @MaxLength(10)
+  @IsInt()
+  @Type(() => Number)
+  @Min(1)
   price: number;
 
   @IsString()
